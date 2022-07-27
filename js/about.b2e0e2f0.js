@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunksharetime_zone"]=self["webpackChunksharetime_zone"]||[]).push([[443],{89:function(n,t){t.Z=(n,t)=>{const e=n.__vccOpts||n;for(const[r,s]of t)e[r]=s;return e}},4335:function(n,t,e){e.r(t),e.d(t,{default:function(){return h}});var r=e(3396);const s={class:"about"},u=(0,r._)("h1",null,"This is an about page",-1),c=[u];function o(n,t){return(0,r.wg)(),(0,r.iD)("div",s,c)}var a=e(89);const i={},f=(0,a.Z)(i,[["render",o]]);var h=f}}]);
+//# sourceMappingURL=about.b2e0e2f0.js.map
