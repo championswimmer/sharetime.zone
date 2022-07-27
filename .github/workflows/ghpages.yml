@@ -1,0 +1,21 @@
+name: Github Pages Deploy
+
+on:
+  workflow_run:
+    workflows: ["Node.js CI"]
+    branches: [ "main" ]
+    types:
+      - completed
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy Github Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
