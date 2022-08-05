@@ -1,5 +1,5 @@
 # sharetime.zone
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2c5cf665-8d8e-4724-b676-c25d7913a5da/deploy-status)](https://app.netlify.com/sites/sharetime-zone/deploys)
 
 
 ## Development
