@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunksharetime_zone"]=self["webpackChunksharetime_zone"]||[]).push([[549],{89:function(n,e){e.Z=(n,e)=>{const t=n.__vccOpts||n;for(const[r,s]of e)t[r]=s;return t}},7549:function(n,e,t){t.r(e),t.d(e,{default:function(){return f}});var r=t(3396);const s=(0,r._)("h1",{class:"title is-4"},[(0,r.Uk)("How "),(0,r._)("code",null,"sharetime.zone"),(0,r.Uk)(" works ?")],-1),o=[s];function c(n,e){return(0,r.wg)(),(0,r.iD)("div",null,o)}var u=t(89);const i={},a=(0,u.Z)(i,[["render",c]]);var f=a}}]);
+//# sourceMappingURL=549.5b621fe4.js.map

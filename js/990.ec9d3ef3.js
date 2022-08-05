@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunksharetime_zone"]=self["webpackChunksharetime_zone"]||[]).push([[990],{89:function(e,n){n.Z=(e,n)=>{const t=e.__vccOpts||e;for(const[r,s]of n)t[r]=s;return t}},3990:function(e,n,t){t.r(n),t.d(n,{default:function(){return f}});var r=t(3396);const s=(0,r._)("h1",{class:"title is-4"},"Time XXXX of this timezone at your place is",-1),c=[s];function i(e,n){return(0,r.wg)(),(0,r.iD)("div",null,c)}var o=t(89);const u={},a=(0,o.Z)(u,[["render",i]]);var f=a}}]);
+//# sourceMappingURL=990.ec9d3ef3.js.map
