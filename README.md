@@ -1,6 +1,13 @@
 # sharetime.zone
 
-## Project setup
+
+
+## Development
+### Project Structure
+
+#### `pages` 
+
+### Project setup
 ```
 npm install
 ```

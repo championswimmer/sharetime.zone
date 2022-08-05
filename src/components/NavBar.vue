@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar" role="navigation">
     <div class="navbar-brand">
-      <span class="navbar-item">sharetime</span>
+      <span class="navbar-item has-text-primary has-text-weight-bold">\ sharetime.zone \</span>
       <a role="button"
          class="navbar-burger"
          :class="{'is-active': expanded}"
@@ -20,7 +20,7 @@
          :class="{'is-active': expanded}">
       <div class="navbar-start">
         <router-link to="/" class="navbar-item">Home</router-link>
-        <router-link to="/about" class="navbar-item">About</router-link>
+        <router-link to="/how" class="navbar-item">How</router-link>
       </div>
     </div>
   </nav>
