@@ -45,7 +45,7 @@ const timezone = ref(timezones.find(tz => tz.utc.includes(myTimezone))?.text || 
 const now = new Date()
 const time = ref(`${minTwoDigits(now.getHours())}:${minTwoDigits(now.getMinutes())}`)
 const link = computed(
-  () => `${process.env.VUE_APP_BASE_URL}${timezones.find(tz => tz.text === timezone.value)?.abbr}/${time.value.substring(0, 2)
+  () => `${window.location.origin}/${timezones.find(tz => tz.text === timezone.value)?.abbr}/${time.value.substring(0, 2)
     }${time.value.substring(3, 5)}`
 )
 
