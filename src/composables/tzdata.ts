@@ -7,7 +7,10 @@ import { useRoute } from 'vue-router'
 export function useTimezone () {
   const route = useRoute()
   const displayTZ = ref('Asia/Kolkata')
-  const displayTime = ref(DateTime.fromJSDate(new Date(), { zone: 'Asia/Kolkata' }))
+  const displayTime = ref(
+    DateTime.fromJSDate(new Date(), { zone: 'Asia/Kolkata' })
+  )
+  const possibleTZs = ref<TimeZone[]>([])
 
   const showAmbiguous = ref(false)
   const showError = ref(false)
@@ -25,23 +28,28 @@ export function useTimezone () {
     if (Array.isArray(result)) {
       showAmbiguous.value = true
       displayTZ.value = route.params.tz as string
+      possibleTZs.value = result
     }
   }
 
   if (route.name === ROUTES.IANA_NOW || route.name === ROUTES.IANA_TIME) {
     displayTZ.value = `${route.params.continent}/${route.params.city}`
+    if (!checkValidTZ(displayTZ.value)) {
+      showError.value = true
+    }
   }
 
-  return ({
+  return {
     displayTZ,
     showAmbiguous,
     showError,
-    showTime
-  })
+    showTime,
+    possibleTZs
+  }
 }
 
 function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
-  const possibleTZs = timezones.filter(tz => tz.abbr === tzAbbr)
+  const possibleTZs = timezones.filter((tz) => tz.abbr === tzAbbr)
   if (possibleTZs.length === 1) {
     return possibleTZs[0].utc[0]
   } else if (possibleTZs.length === 0) {
@@ -49,4 +57,8 @@ function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
   } else {
     return possibleTZs
   }
+}
+
+function checkValidTZ (tz: string): boolean {
+  return timezones.some((t) => t.utc.includes(tz))
 }
