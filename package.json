@@ -1,4 +1,6 @@
 {
+  "name": "sharetime.zone",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -17,9 +19,12 @@
     "@vue/eslint-config-typescript": "^11.0.2",
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",
-    "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "nuxt": "^3.2.2",
-    "vue-eslint-parser": "^9.1.0"
+    "vue-eslint-parser": "^9.1.0",
+    "yorkie": "^2.0.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   }
 }
