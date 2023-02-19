@@ -34,7 +34,6 @@ const {
 
 const route = useRoute()
 const headers = useRequestHeaders()
-console.log(headers)
 
 const displayTime = DateTime.fromFormat((route.params.time as string), 'HHmm', { zone: displayTZ.value })
 const localTime = headers['x-user-timezone'] ? displayTime.setZone(headers['x-user-timezone']) : displayTime.setZone('local')
