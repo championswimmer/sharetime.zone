@@ -2,4 +2,14 @@
 $family-primary: 'Azeret Mono', monospace;
 
 // Init Bulma
-@import '~bulma';
+// @import '~bulma';
+
+@import "~bulma/sass/utilities/_all.sass";
+@import "~bulma/sass/helpers/_all.sass";
+
+@import "~bulma/sass/base/generic.sass";
+@import "~bulma/sass/base/minireset.sass";
+
+@import "~bulma/sass/elements/container.sass";
+
+@import "~bulma/sass/components/navbar.sass";
