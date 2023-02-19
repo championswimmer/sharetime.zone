@@ -6,7 +6,6 @@
             {{localTime.toFormat('hh:mm a')}}
             <span v-if="dayDelta"> {{dayDelta}} </span>
         </div>
-        <DisambiguateTZ v-if="showAmbiguous" :possible-t-zs="possibleTZs"></DisambiguateTZ>
         <div v-if="showError">
             <h1 class="title is-4">
                 Given time zone {{displayTZ}} is not a valid timezone.

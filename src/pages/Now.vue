@@ -11,11 +11,7 @@
         Given time zone {{displayTZ}} is not a valid timezone abbreviation.
         </div>
 
-        <div
-          v-if="showAmbiguous"
-          class="title is-4">
-        Given time zone {{displayTZ}} might mean any of the following. Please select one.
-        </div>
+        <DisambiguateTZ v-if="showAmbiguous" :possible-t-zs="possibleTZs"></DisambiguateTZ>
     </div>
 </template>
 
@@ -23,16 +19,17 @@
 import { onDeactivated, Ref, ref } from 'vue'
 import { DateTime } from 'luxon'
 import { useTimezone } from '@/composables/tzdata'
+import DisambiguateTZ from '@/components/DisambiguateTZ.vue'
 
 const {
   displayTZ,
   showAmbiguous,
   showError,
-  showTime
+  showTime,
+  possibleTZs
 } = useTimezone()
 
 let displayTime: Ref<DateTime>
-
 let ticker: number | undefined
 
 if (showTime.value === true) {
