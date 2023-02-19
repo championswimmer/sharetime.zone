@@ -1,5 +1,3 @@
-/* from https://github.com/dmfilipenko/timezones.json/blob/master/timezones.json */
-import { DateTime } from 'luxon'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { ROUTES } from './routes'
@@ -76,6 +74,7 @@ function checkValidTZ (tz: string): string | undefined {
   return timezones.filter(t => t.utc.includes(tz))[0]?.abbr
 }
 
+/* from https://github.com/dmfilipenko/timezones.json/blob/master/timezones.json */
 export const timezones: Array<TimeZone> = [
   {
     value: 'Dateline Standard Time',

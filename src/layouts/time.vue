@@ -33,8 +33,11 @@ const {
 } = useTimezone()
 
 const route = useRoute()
+const headers = useRequestHeaders()
+console.log(headers)
+
 const displayTime = DateTime.fromFormat((route.params.time as string), 'HHmm', { zone: displayTZ.value })
-const localTime = displayTime.setZone('local')
+const localTime = headers['x-user-timezone'] ? displayTime.setZone(headers['x-user-timezone']) : displayTime.setZone('local')
 
 let dayDelta: string | undefined
 if (localTime.day - displayTime.day === 1) {
