@@ -286,3 +286,4 @@ yarn-error.log
 ### NuxtJS ###
 .nuxt/
 .output/
+.netlify/
