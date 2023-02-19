@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="title is-4">How <code>sharetime.zone</code> works ?</h1>
+        <div class="title is-4">How <code>sharetime.zone</code> works ?</div>
     </div>
 </template>
 

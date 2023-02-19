@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h1 v-if="showTime" class="title is-4">
+        <div v-if="showTime" class="title is-4">
             Time {{displayTime.toFormat('hh:mm a')}}
             of this timezone {{displayTZ}} at your place is
             {{localTime.toFormat('hh:mm a')}}
             <span v-if="dayDelta"> {{dayDelta}} </span>
-        </h1>
+        </div>
         <DisambiguateTZ v-if="showAmbiguous" :possible-t-zs="possibleTZs"></DisambiguateTZ>
         <div v-if="showError">
             <h1 class="title is-4">

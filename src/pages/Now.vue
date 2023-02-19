@@ -1,21 +1,21 @@
 <template>
     <div>
-        <h1
+        <div
           v-if="showTime"
           class="title is-4">
         Time right now at {{displayTZ}} is {{displayTime.toFormat('hh:mm:ss a')}}
-        </h1>
-        <h1
+        </div>
+        <div
           v-if="showError"
           class="title is-4">
         Given time zone {{displayTZ}} is not a valid timezone abbreviation.
-        </h1>
+        </div>
 
-        <h1
+        <div
           v-if="showAmbiguous"
           class="title is-4">
         Given time zone {{displayTZ}} might mean any of the following. Please select one.
-        </h1>
+        </div>
     </div>
 </template>
 

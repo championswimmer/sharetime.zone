@@ -29,3 +29,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Deploy
+Current this deploys via Netlify 
+
+The code to deploy this via Github Pages is commented out in the .github/workflows/nodejs.yml file
