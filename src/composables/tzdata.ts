@@ -32,10 +32,11 @@ export function useTimezone () {
   }
 
   if (route.name === ROUTES.IANA_NOW || route.name === ROUTES.IANA_TIME) {
-    const validTZ = checkValidTZ(displayTZ.value)
     displayTZ.value = `${route.params.continent}/${route.params.city}`
-    if (!validTZ) {
+    const validTZ = checkValidTZ(displayTZ.value)
+    if (validTZ === undefined) {
       showError.value = true
+      displayTZAbbr.value = 'NA'
     } else {
       displayTZAbbr.value = validTZ
     }

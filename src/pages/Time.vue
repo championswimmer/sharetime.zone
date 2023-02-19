@@ -8,14 +8,7 @@
             <StaticTime :display-time="localTime"/>
             <span v-if="dayDelta"> {{dayDelta}} </span>
         </div>
-        <div v-if="showError">
-            <h1 class="title is-4">
-                Given time zone {{displayTZ}} is not a valid timezone.
-            </h1>
-            <h1 class="title is-4">
-                Please try again.
-            </h1>
-        </div>
+        <InvalidTZError v-if="showError" :display-t-z="displayTZ"/>
         <DisambiguateTZ v-if="showAmbiguous" :possible-t-zs="possibleTZs"></DisambiguateTZ>
     </div>
 </template>
@@ -23,6 +16,7 @@
 <script setup lang="ts">
 import DisambiguateTZ from '@/components/DisambiguateTZ.vue'
 import StaticTime from '@/components/StaticTime.vue'
+import InvalidTZError from '@/components/InvalidTZError.vue'
 import { useTimezone } from '@/composables/tzdata'
 import { DateTime } from 'luxon'
 import { useRoute } from 'vue-router'

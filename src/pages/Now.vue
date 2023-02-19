@@ -1,18 +1,12 @@
 <template>
     <div>
-        <div
-          v-if="showTime"
-          class="has-text-centered">
+        <div v-if="showTime" class="has-text-centered">
         right now at
-        <div class="has-text-weight-bold"> ({{ displayTZAbbr }}) {{ displayTZ }} </div>
+          <div class="has-text-weight-bold"> ({{ displayTZAbbr }}) {{ displayTZ }} </div>
         the time is
-        <TickerTime :display-t-z="displayTZ"/>
+          <TickerTime :display-t-z="displayTZ"/>
         </div>
-        <div
-          v-if="showError"
-          class="title is-4">
-        Given time zone {{displayTZ}} is not a valid timezone abbreviation.
-        </div>
+        <InvalidTZError v-if="showError" :display-t-z="displayTZ"/>
 
         <DisambiguateTZ v-if="showAmbiguous" :possible-t-zs="possibleTZs"></DisambiguateTZ>
     </div>
@@ -22,6 +16,7 @@
 import { useTimezone } from '@/composables/tzdata'
 import DisambiguateTZ from '@/components/DisambiguateTZ.vue'
 import TickerTime from '@/components/TickerTime.vue'
+import InvalidTZError from '@/components/InvalidTZError.vue'
 
 const {
   displayTZ,
