@@ -1,8 +1,13 @@
 <template>
-    <div class="about">
-        <div>This could mean one of these timezones, please pick one</div>
-        <div v-for="tz in possibleTZs" :key="tz.value">
-            <a :href="`/${tz.utc[0]}/${route.params?.time?? 'now' }`">{{ tz.value }} </a>
+    <div class="about has-text-centered">
+        <div class="my-4">
+            <div class="has-text-weight-bold has-text-info is-size-5">{{tzAbbr}}</div>
+            could mean multiple timezones
+            <br>
+            please pick one
+        </div>
+        <div v-for="tz in possibleTZs" :key="tz.value" class="my-1">
+            <a :href="`/${tz.utc[0]}/${route.params?.time?? 'now' }`">▶ {{ tz.value }} </a>
         </div>
     </div>
 </template>
@@ -16,6 +21,7 @@ defineProps<{
 }>()
 
 const route = useRoute()
+const tzAbbr = route.params.tz
 </script>
 
 <style lang="scss" scoped></style>
