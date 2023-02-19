@@ -1,3 +1,3 @@
 <template>
-  <Nuxt />
+  <div>NOW</div>
 </template>
