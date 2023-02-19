@@ -3,7 +3,7 @@
         <div v-if="showTime" class="column is-centered has-text-centered">
             <StaticTime :display-time="displayTime"/>
             in the timezone
-            <div class="has-text-weight-bold"> ({{ route.params.tz }}) {{ displayTZ }} </div>
+            <div class="has-text-weight-bold"> ({{ displayTZAbbr }}) {{ displayTZ }} </div>
             at your place is
             <StaticTime :display-time="localTime"/>
             <span v-if="dayDelta"> {{dayDelta}} </span>
@@ -29,6 +29,7 @@ import { useRoute } from 'vue-router'
 
 const {
   displayTZ,
+  displayTZAbbr,
   showAmbiguous,
   showError,
   showTime,

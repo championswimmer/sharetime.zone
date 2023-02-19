@@ -3,7 +3,10 @@
         <div
           v-if="showTime"
           class="has-text-centered">
-        Time right now at {{displayTZ}} is {{displayTime.toFormat('hh:mm:ss a')}}
+        right now at
+        <div class="has-text-weight-bold"> ({{ displayTZAbbr }}) {{ displayTZ }} </div>
+        the time is
+        <TickerTime :display-t-z="displayTZ"/>
         </div>
         <div
           v-if="showError"
@@ -16,34 +19,18 @@
 </template>
 
 <script setup lang="ts">
-import { onDeactivated, Ref, ref } from 'vue'
-import { DateTime } from 'luxon'
 import { useTimezone } from '@/composables/tzdata'
 import DisambiguateTZ from '@/components/DisambiguateTZ.vue'
+import TickerTime from '@/components/TickerTime.vue'
 
 const {
   displayTZ,
+  displayTZAbbr,
   showAmbiguous,
   showError,
   showTime,
   possibleTZs
 } = useTimezone()
-
-let displayTime: Ref<DateTime>
-let ticker: number | undefined
-
-if (showTime.value === true) {
-  displayTime = ref(DateTime.fromJSDate(new Date(), { zone: displayTZ.value }))
-  ticker = setInterval(() => {
-    displayTime.value = DateTime.fromJSDate(new Date(), { zone: displayTZ.value })
-  }, 1000)
-}
-
-onDeactivated(() => {
-  if (ticker) {
-    clearInterval(ticker)
-  }
-})
 
 </script>
 

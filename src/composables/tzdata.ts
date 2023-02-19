@@ -7,9 +7,7 @@ import { useRoute } from 'vue-router'
 export function useTimezone () {
   const route = useRoute()
   const displayTZ = ref('Asia/Kolkata')
-  const displayTime = ref(
-    DateTime.fromJSDate(new Date(), { zone: 'Asia/Kolkata' })
-  )
+  const displayTZAbbr = ref('IST')
   const possibleTZs = ref<TimeZone[]>([])
 
   const showAmbiguous = ref(false)
@@ -20,6 +18,7 @@ export function useTimezone () {
     const result = getDisplayTZ(route.params.tz as string)
     if (typeof result === 'string') {
       displayTZ.value = result
+      displayTZAbbr.value = route.params.tz as string
     }
     if (result === null) {
       showError.value = true
@@ -33,14 +32,18 @@ export function useTimezone () {
   }
 
   if (route.name === ROUTES.IANA_NOW || route.name === ROUTES.IANA_TIME) {
+    const validTZ = checkValidTZ(displayTZ.value)
     displayTZ.value = `${route.params.continent}/${route.params.city}`
-    if (!checkValidTZ(displayTZ.value)) {
+    if (!validTZ) {
       showError.value = true
+    } else {
+      displayTZAbbr.value = validTZ
     }
   }
 
   return {
     displayTZ,
+    displayTZAbbr,
     showAmbiguous,
     showError,
     showTime,
@@ -59,6 +62,6 @@ function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
   }
 }
 
-function checkValidTZ (tz: string): boolean {
-  return timezones.some((t) => t.utc.includes(tz))
+function checkValidTZ (tz: string): string | undefined {
+  return timezones.filter((t) => t.utc.includes(tz))[0]?.abbr
 }
