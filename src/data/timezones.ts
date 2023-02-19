@@ -20,8 +20,8 @@ export function useTimezone () {
   const possibleTZs = ref<TimeZone[]>([])
 
   const showAmbiguous = ref(false)
-  const showError = ref(false)
-  const showTime = computed(() => !(showAmbiguous.value || showError.value))
+  const showTZError = ref(false)
+  const showTime = computed(() => !(showAmbiguous.value || showTZError.value))
 
   if (route.name === ROUTES.ABBR_NOW || route.name === ROUTES.ABBR_TIME) {
     const result = getDisplayTZ(route.params.tz as string)
@@ -30,7 +30,7 @@ export function useTimezone () {
       displayTZAbbr.value = route.params.tz as string
     }
     if (result === null) {
-      showError.value = true
+      showTZError.value = true
       displayTZ.value = route.params.tz as string
     }
     if (Array.isArray(result)) {
@@ -44,7 +44,7 @@ export function useTimezone () {
     displayTZ.value = `${route.params.continent}/${route.params.city}`
     const validTZ = checkValidTZ(displayTZ.value)
     if (validTZ === undefined) {
-      showError.value = true
+      showTZError.value = true
       displayTZAbbr.value = 'NA'
     } else {
       displayTZAbbr.value = validTZ
@@ -55,7 +55,7 @@ export function useTimezone () {
     displayTZ,
     displayTZAbbr,
     showAmbiguous,
-    showError,
+    showTZError,
     showTime,
     possibleTZs
   }

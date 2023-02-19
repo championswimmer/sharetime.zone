@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
 import { DateTime } from 'luxon'
-import { defineProps, onDeactivated, ref } from 'vue'
+import { onDeactivated, ref } from 'vue'
 
 const props = defineProps<{
     displayTZ: string

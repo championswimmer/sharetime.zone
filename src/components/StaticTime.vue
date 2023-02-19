@@ -5,7 +5,6 @@
 </template>
 <script setup lang="ts">
 import { DateTime } from 'luxon'
-import { defineProps } from 'vue'
 
 defineProps<{
     displayTime: DateTime

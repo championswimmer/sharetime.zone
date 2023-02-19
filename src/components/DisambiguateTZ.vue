@@ -15,7 +15,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
 import { useRoute } from 'vue-router'
 import { TimeZone } from '../data/timezones'
 defineProps<{
