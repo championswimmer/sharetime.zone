@@ -2,7 +2,7 @@
     <div>
         <div
           v-if="showTime"
-          class="title is-4">
+          class="has-text-centered">
         Time right now at {{displayTZ}} is {{displayTime.toFormat('hh:mm:ss a')}}
         </div>
         <div
