@@ -1,20 +1,16 @@
-# Nuxt 3 Minimal Starter
+# sharetime.zone 
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+See time now at different timezones and share time with others easily.
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2c5cf665-8d8e-4724-b676-c25d7913a5da/deploy-status)](https://app.netlify.com/sites/sharetime-zone/deploys)
 
 ## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-# yarn
-yarn install
-
 # npm
 npm install
-
-# pnpm
-pnpm install
 ```
 
 ## Development Server
