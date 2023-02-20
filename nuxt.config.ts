@@ -1,5 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  modules: [
+    'nuxt-delay-hydration',
+    '@vite-pwa/nuxt'
+  ],
   app: {
     head: {
       title: 'sharetime.zone',
@@ -24,9 +28,30 @@ export default defineNuxtConfig({
     '@/styles/fonts.css',
     '@/styles/app.scss'
   ],
-  modules: [
-    'nuxt-delay-hydration'
-  ],
+  pwa: {
+    minify: true,
+    manifest: {
+      name: 'sharetime.zone',
+      short_name: 'sharetime.zone',
+      icons: [
+        {
+          src: '/android-chrome-192x192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: '/android-chrome-512x512.png',
+          sizes: '512x512',
+          type: 'image/png'
+        }
+      ],
+      theme_color: '#0099cc',
+      background_color: '#ffffff',
+      display: 'standalone'
+    },
+    manifestFilename: 'site.webmanifest',
+    registerWebManifestInRouteRules: true
+  },
   delayHydration: {
     // debug: process.env.NODE_ENV === 'development',
     mode: 'mount'
