@@ -1,5 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: 'sharetime.zone',
+      charset: 'utf-8',
+      meta: [
+        { name: 'description', content: 'Share time in different timezones easily' }
+      ]
+    }
+  },
   srcDir: 'src',
   alias: {
     '~bulma': 'node_modules/bulma'
@@ -16,12 +25,3 @@ export default defineNuxtConfig({
     mode: 'mount'
   }
 })
-
-declare module 'nuxt/schema' {
-  interface NuxtConfig {
-    delayHydration?: {
-      debug?: boolean,
-      mode?: false | 'init' | 'mount' | 'manual'
-    }
-  }
-}
