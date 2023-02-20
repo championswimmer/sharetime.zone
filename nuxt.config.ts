@@ -30,6 +30,7 @@ export default defineNuxtConfig({
   ],
   pwa: {
     minify: true,
+    registerType: 'autoUpdate',
     manifest: {
       name: 'sharetime.zone',
       short_name: 'sharetime.zone',

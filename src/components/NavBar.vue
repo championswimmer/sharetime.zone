@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar" role="navigation">
     <div class="navbar-brand">
-      <span class="navbar-item has-text-primary has-text-weight-bold">\ sharetime.zone \</span>
+      <span class="navbar-item has-text-primary-dark has-text-weight-bold">\ sharetime.zone \</span>
       <a
         role="button"
         class="navbar-burger"
