@@ -9,8 +9,10 @@ export default async (request: Request, context: Context) => {
     if (urlSegments.length === 2) {
       if (urlSegments[1] === 'now') {
         const tz = getDisplayTZ(urlSegments[1])
+        console.log(tz)
         if (typeof tz === 'string') {
           const now = datetime().toZonedTime(tz)
+          console.log(now)
           return await new Response(
             `Time right now in (${urlSegments[1]}) ${tz} is ${now.format('hh:mm a')} \n`,
             { status: 200 }
