@@ -3,7 +3,7 @@ import { URL } from 'url'
 import type { Context } from '@netlify/edge-functions'
 import { EdgeRequest } from '@netlify/edge-functions/dist/types/request'
 import { DateTime } from 'luxon'
-import { getDisplayTZ } from '../../src/data/timezones'
+import { getDisplayTZ } from './edge-timezones'
 
 export default async (request: EdgeRequest, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
