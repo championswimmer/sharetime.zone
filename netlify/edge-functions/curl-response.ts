@@ -8,7 +8,7 @@ export default async (request: Request, context: Context) => {
     console.log(urlSegments)
     if (urlSegments.length === 2) {
       if (urlSegments[1] === 'now') {
-        const tz = getDisplayTZ(urlSegments[1])
+        const tz = getDisplayTZ(urlSegments[0])
         console.log(tz)
         if (typeof tz === 'string') {
           const now = datetime().toZonedTime(tz)
