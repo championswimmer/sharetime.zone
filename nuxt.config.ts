@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { join } from 'path'
 export default defineNuxtConfig({
   modules: [
     'nuxt-delay-hydration',
@@ -20,7 +21,7 @@ export default defineNuxtConfig({
       ]
     }
   },
-  srcDir: 'src',
+  srcDir: './src',
   alias: {
     '~bulma': 'node_modules/bulma'
   },
