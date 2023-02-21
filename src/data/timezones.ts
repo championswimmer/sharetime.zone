@@ -59,7 +59,7 @@ export function useTimezone () {
   }
 }
 
-function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
+export function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
   const possibleTZs = timezones.filter(tz => tz.abbr === tzAbbr)
   if (possibleTZs.length === 1) {
     return possibleTZs[0].utc[0]
@@ -70,7 +70,7 @@ function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
   }
 }
 
-function checkValidTZ (tz: string): string | undefined {
+export function checkValidTZ (tz: string): string | undefined {
   return timezones.filter(t => t.utc.includes(tz))[0]?.abbr
 }
 
