@@ -4,7 +4,7 @@ import { datetime } from 'https://deno.land/x/ptera/mod.ts'
 
 export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
-    const urlSegments = new URL(request.url).pathname.split('/')
+    const urlSegments = new URL(request.url).pathname.split('/').slice(1)
     console.log(urlSegments)
     if (urlSegments.length === 2) {
       if (urlSegments[1] === 'now') {
