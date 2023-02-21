@@ -1,20 +1,18 @@
 
-import { URL } from 'url'
-import type { Context } from '@netlify/edge-functions'
-import { EdgeRequest } from '@netlify/edge-functions/dist/types/request'
-import { DateTime } from 'luxon'
+import { Context } from 'https://edge.netlify.com'
+import { datetime } from 'https://deno.land/x/ptera/mod.ts'
 import { getDisplayTZ } from './edge-timezones.ts'
 
-export default async (request: EdgeRequest, context: Context) => {
+export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
     const urlSegments = new URL(request.url).pathname.split('/')
     if (urlSegments.length === 2) {
       if (urlSegments[1] === 'now') {
         const tz = getDisplayTZ(urlSegments[1])
         if (typeof tz === 'string') {
-          const now = DateTime.fromJSDate(new Date(), { zone: tz })
+          const now = datetime().toZonedTime(tz)
           return await new Response(
-            `Time right now in (${urlSegments[1]}) ${tz} is ${now.toFormat('hh:mm a')} \0`,
+            `Time right now in (${urlSegments[1]}) ${tz} is ${now.format('hh:mm a')} \0`,
             { status: 200 }
           )
         }
