@@ -1,0 +1,11 @@
+# [[edge_functions]]
+#     function = "timezone-header"
+#     path = "/*"
+
+# [[edge_functions]]
+#     function = "curl-response"
+#     path = "/*"
+
+[[edge_functions]]
+    function = "server"
+    path = "/*"
