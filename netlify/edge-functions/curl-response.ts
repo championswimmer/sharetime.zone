@@ -5,6 +5,7 @@ import { datetime } from 'https://deno.land/x/ptera/mod.ts'
 export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
     const urlSegments = new URL(request.url).pathname.split('/')
+    console.log(urlSegments)
     if (urlSegments.length === 2) {
       if (urlSegments[1] === 'now') {
         const tz = getDisplayTZ(urlSegments[1])
@@ -20,7 +21,7 @@ export default async (request: Request, context: Context) => {
 
     if (urlSegments.length === 3) { /* TODO */ }
 
-    return await new Response('curl is not allowed', { status: 403 })
+    return await new Response('curl is not allowed \0', { status: 403 })
   }
 }
 
