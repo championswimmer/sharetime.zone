@@ -12,7 +12,7 @@ export default async (request: Request, context: Context) => {
         if (typeof tz === 'string') {
           const now = datetime().toZonedTime(tz)
           return await new Response(
-            `Time right now in (${urlSegments[1]}) ${tz} is ${now.format('hh:mm a')} \0`,
+            `Time right now in (${urlSegments[1]}) ${tz} is ${now.format('hh:mm a')} \n`,
             { status: 200 }
           )
         }
@@ -21,7 +21,7 @@ export default async (request: Request, context: Context) => {
 
     if (urlSegments.length === 3) { /* TODO */ }
 
-    return await new Response('curl is not allowed \0', { status: 403 })
+    return await new Response('curl is not allowed \n', { status: 403 })
   }
 }
 
