@@ -2,8 +2,8 @@
 import { join } from 'path'
 export default defineNuxtConfig({
   modules: [
-    'nuxt-delay-hydration'
-    // '@vite-pwa/nuxt'
+    'nuxt-delay-hydration',
+    '@vite-pwa/nuxt'
   ],
   app: {
     head: {
