@@ -21,7 +21,7 @@ export default defineNuxtConfig({
       ]
     }
   },
-  srcDir: './src',
+  srcDir: 'src',
   alias: {
     '~bulma': 'node_modules/bulma'
   },
