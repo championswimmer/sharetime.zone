@@ -30,8 +30,6 @@ export default defineNuxtConfig({
     '@/styles/app.scss'
   ],
   pwa: {
-    minify: true,
-    registerType: 'autoUpdate',
     manifest: {
       name: 'sharetime.zone',
       short_name: 'sharetime.zone',
@@ -51,7 +49,10 @@ export default defineNuxtConfig({
       background_color: '#ffffff',
       display: 'standalone'
     },
-    manifestFilename: 'site.webmanifest',
+    injectRegister: 'inline',
+    injectManifest: {
+      swDest: join(__dirname, 'dist', 'sw.js')
+    },
     registerWebManifestInRouteRules: true
   },
   delayHydration: {

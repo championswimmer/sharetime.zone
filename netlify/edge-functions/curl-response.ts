@@ -12,7 +12,6 @@ export default async (request: Request, context: Context) => {
         console.log(tz)
         if (typeof tz === 'string') {
           const now = datetime().toZonedTime(tz)
-          console.log(now)
           return await new Response(
             `Time right now in (${urlSegments[0]}) ${tz} is ${now.format('hh:mm a')} \n`,
             { status: 200 }
