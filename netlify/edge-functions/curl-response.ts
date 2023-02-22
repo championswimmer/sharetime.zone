@@ -1,6 +1,6 @@
 
 import { Context } from 'https://edge.netlify.com'
-import { datetime } from 'https://deno.land/x/ptera/mod.ts'
+import { datetime } from 'https://deno.land/x/ptera@v1.0.2/mod.ts'
 
 export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
@@ -24,6 +24,8 @@ export default async (request: Request, context: Context) => {
     if (urlSegments.length === 3) { /* TODO */ }
 
     return await new Response('curl is not allowed \n', { status: 403 })
+  } else {
+    return await context.next()
   }
 }
 
