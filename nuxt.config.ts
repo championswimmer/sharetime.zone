@@ -29,6 +29,9 @@ export default defineNuxtConfig({
     '@/styles/fonts.css',
     '@/styles/app.scss'
   ],
+  nitro: {
+    preset: 'netlify'
+  },
   pwa: {
     manifestFilename: 'site.webmanifest',
     injectRegister: 'script',
