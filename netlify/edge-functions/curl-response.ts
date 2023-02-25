@@ -18,6 +18,12 @@ export default async (request: Request, context: Context) => {
             { status: 200 }
           )
         }
+        if (Array.isArray(tz)) {
+          const now = datetime()
+          const responseHeader = `Multiple timezones found for (${urlSegments[0]}) \n`
+          const responseBody = tz.map(t => `Time right now at ${t.value} ${t.text} is ${now.toZonedTime(t.utc[0]).format('hh:mm a')}`).join('\n')
+          return await new Response(responseHeader + responseBody + '\n', { status: 200 })
+        }
       }
     }
 
