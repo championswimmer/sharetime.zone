@@ -8,9 +8,9 @@ export default async (request: Request, context: Context) => {
     const urlSegments = new URL(request.url).pathname.split('/').slice(1)
     console.log(urlSegments)
     if (urlSegments.length === 2) {
+      const tz = getDisplayTZ(urlSegments[0])
+      console.log(tz)
       if (urlSegments[1] === 'now') {
-        const tz = getDisplayTZ(urlSegments[0])
-        console.log(tz)
         if (typeof tz === 'string') {
           const now = datetime().toZonedTime(tz)
           return await new Response(
@@ -22,6 +22,24 @@ export default async (request: Request, context: Context) => {
           const now = datetime()
           const responseHeader = `Multiple timezones found for (${urlSegments[0]}) \n`
           const responseBody = tz.map(t => `Time right now at ${t.value} ${t.text} is ${now.toZonedTime(t.utc[0]).format('hh:mm a')}`).join('\n')
+          return await new Response(responseHeader + responseBody + '\n', { status: 200 })
+        }
+      } else if (/([0-2][0-9][0-5][0-9])/.test(urlSegments[1])) {
+        if (typeof tz === 'string') {
+          const now = datetime().toZonedTime(tz)
+          const time = urlSegments[1]
+          const hour = time.slice(0, 2)
+          const minute = time.slice(2, 4)
+          const response = `Time in (${urlSegments[0]}) ${tz} at ${hour}:${minute} is ${now.set({ hour, minute }).format('hh:mm a')} \n`
+          return await new Response(response, { status: 200 })
+        }
+        if (Array.isArray(tz)) {
+          const now = datetime()
+          const time = urlSegments[1]
+          const hour = time.slice(0, 2)
+          const minute = time.slice(2, 4)
+          const responseHeader = `Multiple timezones found for (${urlSegments[0]}) \n`
+          const responseBody = tz.map(t => `Time right now at ${t.value} ${t.text} is ${now.toZonedTime(t.utc[0]).set({ hour, minute }).format('hh:mm a')}`).join('\n')
           return await new Response(responseHeader + responseBody + '\n', { status: 200 })
         }
       }

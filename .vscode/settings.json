@@ -1,5 +1,10 @@
 {
-    "deno.enablePaths": [
-        "./netlify"
-    ]
+  "deno.enablePaths": [
+    "./netlify",
+    "netlify/edge-functions"
+  ],
+  "deno.enable": true,
+  "deno.unstable": true,
+  "deno.importMap": ".netlify/edge-functions-import-map.json",
+  "deno.path": "/Users/championswimmer/Library/Preferences/netlify/deno-cli/deno"
 }
