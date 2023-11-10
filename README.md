@@ -19,6 +19,20 @@ There are 2 main use cases:
 
 
 ### cURL 
+Using Netlify's Edge Functions, cURL is supported. cURL requests are responded to extremely fast as it is processed at the edge, and _your timezone_ is automatically detected from your request.
+
+Behaviour is same as above. 
+
+```bash
+❯ curl https://sharetime.zone/PST/now
+Time right now in (PST) America/Los_Angeles is 04:10 AM
+❯ curl https://sharetime.zone/KST/now
+Multiple timezones found for (KST)
+Time right now at Kaliningrad Standard Time (UTC+02:00) Kaliningrad is 02:10 PM
+Time right now at Korea Standard Time (UTC+09:00) Seoul is 09:10 PM
+```
+
+> NOTE: Netlify Edge processing, is obviously susceptible to wrong info if you are on a VPN. The website can correct itself with your local computer time. But cURL requests will be wrong if you are on a VPN. 
 
 
 ## Setup
