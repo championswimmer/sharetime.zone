@@ -62,12 +62,12 @@ function timeInTz (tzAbbr: string, timeStr: string): string {
     throw new Error('Invalid Time')
   }
   if (typeof tz === 'string') {
-    const now = datetime().toZonedTime(tz)
+    const now = datetime()
     const hour = timeStr.slice(0, 2)
     const minute = timeStr.slice(2, 4)
     now.hour = parseInt(hour)
     now.minute = parseInt(minute)
-    return `Your time: ${hour}${minute} hrs in (${tzAbbr}) ${tz} will be ${now.format('hh:mm a')} \n`
+    return `Your time: ${hour}${minute} hrs in (${tzAbbr}) ${tz} will be ${now.toZonedTime(tz).format('hh:mm a')} \n`
   } else if (Array.isArray(tz)) {
     const now = datetime()
     const hour = timeStr.slice(0, 2)
