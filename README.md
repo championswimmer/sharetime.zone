@@ -24,12 +24,22 @@ Using Netlify's Edge Functions, cURL is supported. cURL requests are responded t
 Behaviour is same as above. 
 
 ```bash
+# 1. Get time now 
+
 ❯ curl https://sharetime.zone/PST/now
 Time right now in (PST) America/Los_Angeles is 04:10 AM
 ❯ curl https://sharetime.zone/KST/now
 Multiple timezones found for (KST)
 Time right now at Kaliningrad Standard Time (UTC+02:00) Kaliningrad is 02:10 PM
 Time right now at Korea Standard Time (UTC+09:00) Seoul is 09:10 PM
+
+# 2. Get specific time
+❯ curl https://sharetime.zone/PST/1200
+Your time: 1200 hrs in (PST) America/Los_Angeles will be 12:00 AM
+❯ curl https://sharetime.zone/KST/1200
+Multiple timezones found for (KST)
+Your time: 1200 hrs in Kaliningrad Standard Time (UTC+02:00) Kaliningrad will be 02:00 PM
+Your time: 1200 hrs in Korea Standard Time (UTC+09:00) Seoul will be 09:00 PM
 ```
 
 > NOTE: Netlify Edge processing, is obviously susceptible to wrong info if you are on a VPN. The website can correct itself with your local computer time. But cURL requests will be wrong if you are on a VPN. 
