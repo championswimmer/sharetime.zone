@@ -11,19 +11,7 @@ export default async (request: Request, context: Context) => {
       const tz = getDisplayTZ(urlSegments[0])
       console.log(tz)
       if (urlSegments[1] === 'now') {
-        if (typeof tz === 'string') {
-          const now = datetime().toZonedTime(tz)
-          return await new Response(
-            `Time right now in (${urlSegments[0]}) ${tz} is ${now.format('hh:mm a')} \n`,
-            { status: 200 }
-          )
-        }
-        if (Array.isArray(tz)) {
-          const now = datetime()
-          const responseHeader = `Multiple timezones found for (${urlSegments[0]}) \n`
-          const responseBody = tz.map(t => `Time right now at ${t.value} ${t.text} is ${now.toZonedTime(t.utc[0]).format('hh:mm a')}`).join('\n')
-          return await new Response(responseHeader + responseBody + '\n', { status: 200 })
-        }
+        return await new Response(timeNowInTz(urlSegments[0]), { status: 200 })
       } else if (/([0-2][0-9][0-5][0-9])/.test(urlSegments[1])) {
         if (typeof tz === 'string') {
           const now = datetime().toZonedTime(tz)
@@ -60,7 +48,7 @@ type TimeZone = {
 }
 
 export function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
-  const possibleTZs = timezones[tzAbbr] as TimeZone[]
+  const possibleTZs = (timezones[tzAbbr]) as Array<TimeZone>
   if (possibleTZs.length === 1) {
     return possibleTZs[0].utc[0]
   } else if (possibleTZs.length === 0) {
@@ -69,3 +57,49 @@ export function getDisplayTZ (tzAbbr: string): string | TimeZone[] | null {
     return possibleTZs
   }
 }
+
+function timeNowInTz (tzAbbr: string): string {
+  const tz: string | Array<TimeZone> = getDisplayTZ(tzAbbr)
+  if (typeof tz === 'string') {
+    const now = datetime().toZonedTime(tz)
+    return `Time right now in (${tzAbbr}) ${tz} is ${now.format('hh:mm a')} \n`
+  } else if (Array.isArray(tz)) {
+    const now = datetime()
+    const responseHeader = `Multiple timezones found for (${tzAbbr}) \n`
+    const responseBody = tz.map(t => `Time right now at ${t.value} ${t.text} is ${now.toZonedTime(t.utc[0]).format('hh:mm a')}`).join('\n')
+    return responseHeader + responseBody + '\n'
+  }
+  throw new Error('Invalid Timezone')
+}
+
+function timeInTz (tzAbbr: string, timeStr: string): string {
+  const tz: string | Array<TimeZone> = getDisplayTZ(tzAbbr)
+  if (!/([0-2][0-9][0-5][0-9])/.test(timeStr)) {
+    throw new Error('Invalid Time')
+  }
+  if (typeof tz === 'string') {
+    const now = datetime().toZonedTime(tz)
+    const hour = timeStr.slice(0, 2)
+    const minute = timeStr.slice(2, 4)
+    now.hour = parseInt(hour)
+    now.minute = parseInt(minute)
+    return `Your time: ${hour}${minute} hrs in (${tzAbbr}) ${tz} will be ${now.format('hh:mm a')} \n`
+  } else if (Array.isArray(tz)) {
+    const now = datetime()
+    const hour = timeStr.slice(0, 2)
+    const minute = timeStr.slice(2, 4)
+    now.hour = parseInt(hour)
+    now.minute = parseInt(minute)
+    const responseHeader = `Multiple timezones found for (${tzAbbr}) \n`
+    const responseBody = tz.map(t => `Your time: ${hour}${minute} hrs in ${t.value} ${t.text} will be ${now.toZonedTime(t.utc[0]).format('hh:mm a')}`).join('\n')
+    return responseHeader + responseBody + '\n'
+  }
+  throw new Error('Invalid Timezone')
+}
+
+// TESTS
+// console.log(getDisplayTZ('IST'))
+// console.log(timeNowInTz('IST'))
+// console.log(timeNowInTz('KST'))
+// console.log(timeInTz('IST', '1200'))
+// console.log(timeInTz('KST', '1200'))

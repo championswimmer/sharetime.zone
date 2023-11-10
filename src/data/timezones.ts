@@ -4,10 +4,10 @@ import tzabbrmap from 'tzabbrmap'
 import { ROUTES } from './routes'
 
 export type TimeZone = {
-  value: string,
-  text: string,
-  utc: string[],
-}
+  value: string;
+  text: string;
+  utc: string[];
+};
 
 const timezones = tzabbrmap as Record<string, TimeZone[]>
 
