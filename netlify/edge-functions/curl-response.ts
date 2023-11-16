@@ -6,14 +6,15 @@ import timezones from 'https://cdn.jsdelivr.net/npm/tzabbrmap' assert { type: 'j
 export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
     const urlSegments = new URL(request.url).pathname.split('/').slice(1)
+    const timezone = context.geo.timezone ?? ''
     console.log(urlSegments)
     if (urlSegments.length === 2) {
       const tz = getDisplayTZ(urlSegments[0])
       console.log(tz)
       if (urlSegments[1] === 'now') {
-        return await new Response(timeNowInTz(urlSegments[0]), { status: 200 })
+        return await new Response(timezone + timeNowInTz(urlSegments[0]), { status: 200 })
       } else if (/([0-2][0-9][0-5][0-9])/.test(urlSegments[1])) {
-        return await new Response(timeInTz(urlSegments[0], urlSegments[1]), { status: 200 })
+        return await new Response(timezone + timeInTz(urlSegments[0], urlSegments[1]), { status: 200 })
       }
     }
 
