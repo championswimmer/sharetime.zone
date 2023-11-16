@@ -7,14 +7,17 @@ export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
     const urlSegments = new URL(request.url).pathname.split('/').slice(1)
     const timezone = context.geo.timezone ?? ''
+    if (!timezone) {
+      return await new Response('Cannot decipher client timezone, sorry\n', { status: 404 })
+    }
     console.log(urlSegments)
     if (urlSegments.length === 2) {
       const tz = getDisplayTZ(urlSegments[0])
       console.log(tz)
       if (urlSegments[1] === 'now') {
-        return await new Response(timezone + timeNowInTz(urlSegments[0]), { status: 200 })
+        return await new Response(timeNowInTz(urlSegments[0]), { status: 200 })
       } else if (/([0-2][0-9][0-5][0-9])/.test(urlSegments[1])) {
-        return await new Response(timezone + timeInTz(urlSegments[0], urlSegments[1]), { status: 200 })
+        return await new Response(timeInTz(urlSegments[0], urlSegments[1]), { status: 200 })
       }
     }
 
@@ -57,26 +60,31 @@ function timeNowInTz (tzAbbr: string): string {
   throw new Error('Invalid Timezone')
 }
 
-function timeInTz (tzAbbr: string, timeStr: string): string {
+function _timeInTz (tzAbbr: string, tz: string, timeStr: string, clientTZ: string): string {
+  const displayTime = datetime().toZonedTime(tz)
+  const hour = timeStr.slice(0, 2)
+  const minute = timeStr.slice(2, 4)
+  displayTime.hour = parseInt(hour)
+  displayTime.minute = parseInt(minute)
+  const localTime = displayTime.toZonedTime(clientTZ)
+  let dayDelta = ''
+  if (localTime.day - displayTime.day === 1) {
+    dayDelta = '(+1 day)'
+  } else if (localTime.day - displayTime.day === -1) {
+    dayDelta = '(-1 day)'
+  }
+  return `${hour}${minute} hrs in (${tzAbbr}) ${tz} at your timezone will be ${localTime.format('hh:mm a')} ${dayDelta} \n`
+}
+function timeInTz (tzAbbr: string, timeStr: string, clientTZ: string): string {
   const tz: string | Array<TimeZone> = getDisplayTZ(tzAbbr)
   if (!/([0-2][0-9][0-5][0-9])/.test(timeStr)) {
     throw new Error('Invalid Time')
   }
   if (typeof tz === 'string') {
-    const now = datetime()
-    const hour = timeStr.slice(0, 2)
-    const minute = timeStr.slice(2, 4)
-    now.hour = parseInt(hour)
-    now.minute = parseInt(minute)
-    return `Your time: ${hour}${minute} hrs in (${tzAbbr}) ${tz} will be ${now.toZonedTime(tz).format('hh:mm a')} \n`
+    return _timeInTz(tzAbbr, tz, timeStr, clientTZ)
   } else if (Array.isArray(tz)) {
-    const now = datetime()
-    const hour = timeStr.slice(0, 2)
-    const minute = timeStr.slice(2, 4)
-    now.hour = parseInt(hour)
-    now.minute = parseInt(minute)
     const responseHeader = `Multiple timezones found for (${tzAbbr}) \n`
-    const responseBody = tz.map(t => `Your time: ${hour}${minute} hrs in ${t.value} ${t.text} will be ${now.toZonedTime(t.utc[0]).format('hh:mm a')}`).join('\n')
+    const responseBody = tz.map(t => _timeInTz(t.value, t.utc[0], timeStr, clientTZ)).join('')
     return responseHeader + responseBody + '\n'
   }
   throw new Error('Invalid Timezone')
@@ -86,5 +94,6 @@ function timeInTz (tzAbbr: string, timeStr: string): string {
 // console.log(getDisplayTZ('IST'))
 // console.log(timeNowInTz('IST'))
 // console.log(timeNowInTz('KST'))
+console.log(timeInTz('PST', '1200', 'Asia/Kolkata'))
 // console.log(timeInTz('IST', '1200'))
-// console.log(timeInTz('KST', '1200'))
+console.log(timeInTz('KST', '1200', 'Asia/Kolkata'))
