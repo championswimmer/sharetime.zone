@@ -6,8 +6,8 @@ import timezones from 'https://cdn.jsdelivr.net/npm/tzabbrmap' assert { type: 'j
 export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
     const urlSegments = new URL(request.url).pathname.split('/').slice(1)
-    const timezone = context.geo.timezone ?? ''
-    if (!timezone) {
+    const clientTZ = context.geo.timezone ?? ''
+    if (!clientTZ) {
       return await new Response('Cannot decipher client timezone, sorry\n', { status: 404 })
     }
     const header = 'Your timezone detected is ' + timezone + '\n'
@@ -18,7 +18,7 @@ export default async (request: Request, context: Context) => {
       if (urlSegments[1] === 'now') {
         return await new Response(header + timeNowInTz(urlSegments[0]), { status: 200 })
       } else if (/([0-2][0-9][0-5][0-9])/.test(urlSegments[1])) {
-        return await new Response(header + timeInTz(urlSegments[0], urlSegments[1]), { status: 200 })
+        return await new Response(header + timeInTz(urlSegments[0], urlSegments[1], clientTZ), { status: 200 })
       }
     }
 
@@ -96,5 +96,4 @@ function timeInTz (tzAbbr: string, timeStr: string, clientTZ: string): string {
 // console.log(timeNowInTz('IST'))
 // console.log(timeNowInTz('KST'))
 // console.log(timeInTz('PST', '1200', 'Asia/Kolkata'))
-// console.log(timeInTz('IST', '1200'))
 // console.log(timeInTz('KST', '1200', 'Asia/Kolkata'))
