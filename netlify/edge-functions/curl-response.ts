@@ -10,7 +10,7 @@ export default async (request: Request, context: Context) => {
     if (!clientTZ) {
       return await new Response('Cannot decipher client timezone, sorry\n', { status: 404 })
     }
-    const header = 'Your timezone detected is ' + timezone + '\n'
+    const header = 'Your timezone detected is ' + clientTZ + '\n'
     console.log(urlSegments)
     if (urlSegments.length === 2) {
       const tz = getDisplayTZ(urlSegments[0])
