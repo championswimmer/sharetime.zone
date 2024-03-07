@@ -26,7 +26,7 @@
         <NuxtLink to="/" class="navbar-item">
           Home
         </NuxtLink>
-        <NuxtLink to="/about" class="navbar-item">
+        <NuxtLink to="/how" class="navbar-item">
           How
         </NuxtLink>
       </div>
