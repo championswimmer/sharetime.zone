@@ -8,5 +8,6 @@
             "node",
             "jest"
         ],
+        "verbatimModuleSyntax": false
     }
 }
