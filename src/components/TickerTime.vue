@@ -8,13 +8,16 @@ import { DateTime } from 'luxon'
 import { onDeactivated, ref } from 'vue'
 
 const props = defineProps<{
-    displayTZ: string
+  displayTZ: string;
 }>()
 
 const displayTime = ref(DateTime.fromJSDate(new Date(), { zone: props.displayTZ }))
-const ticker = setInterval(() => {
-  displayTime.value = DateTime.fromJSDate(new Date(), { zone: props.displayTZ })
-}, 1000)
+let ticker: NodeJS.Timeout | null = null
+onMounted(() => {
+  ticker = setInterval(() => {
+    displayTime.value = DateTime.fromJSDate(new Date(), { zone: props.displayTZ })
+  }, 1000)
+})
 
 onDeactivated(() => {
   if (ticker) {

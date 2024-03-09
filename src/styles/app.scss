@@ -14,3 +14,8 @@ $family-primary: 'Azeret Mono', monospace;
 @import "~bulma/sass/elements/title.sass";
 
 @import "~bulma/sass/components/navbar.sass";
+
+.subtitle {
+    color: hsl(0, 0%, 50%);
+    font-weight: 300;
+}
