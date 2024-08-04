@@ -29,6 +29,9 @@
         <NuxtLink to="/how" class="navbar-item">
           How
         </NuxtLink>
+        <NuxtLink to="/generate" class="navbar-item">
+          Generate
+        </NuxtLink>
       </div>
     </div>
   </nav>
