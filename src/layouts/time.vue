@@ -22,6 +22,7 @@ import DisambiguateTZ from '@/components/DisambiguateTZ.vue'
 import StaticTime from '@/components/StaticTime.vue'
 import InvalidTZError from '@/components/InvalidTZError.vue'
 import { useTimezone } from '@/data/timezones'
+import { toMilitaryFormat } from '@/time/parse'
 
 const {
   displayTZ,
@@ -35,7 +36,8 @@ const {
 const route = useRoute()
 const headers = useRequestHeaders()
 
-const displayTime = DateTime.fromFormat((route.params.time as string), 'HHmm', { zone: displayTZ.value })
+const militaryTime = toMilitaryFormat(route.params.time as string) || '0000'
+const displayTime = DateTime.fromFormat(militaryTime, 'HHmm', { zone: displayTZ.value })
 const localTime = headers['x-user-timezone'] ? displayTime.setZone(headers['x-user-timezone']) : displayTime.setZone('local')
 
 let dayDelta: string | undefined

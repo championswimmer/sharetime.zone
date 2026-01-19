@@ -71,6 +71,8 @@ sharetime.zone/
 │   ├── data/                # Data utilities
 │   │   ├── timezones.ts     # Timezone composable
 │   │   └── routes.ts        # Route name constants
+│   ├── time/                # Time parsing utilities
+│   │   └── parse.ts         # Time format parser and validator
 │   ├── styles/              # Global styles
 │   │   ├── app.scss         # Main stylesheet (Bulma customization)
 │   │   └── fonts.css        # Font definitions
@@ -78,6 +80,7 @@ sharetime.zone/
 ├── netlify/
 │   └── edge-functions/      # Netlify Edge Functions (Deno runtime)
 │       ├── curl-response.ts # cURL request handler
+│       ├── time-parse.ts    # Time parser for edge functions (Deno)
 │       └── timezone-header.ts   # TZ header middleware
 ├── test/                    # Jest tests
 ├── app.vue                  # Root app component
@@ -150,14 +153,24 @@ Pages in `src/pages/` automatically create routes:
 ### Route Validation
 Routes with parameters include validation using `definePageMeta()`:
 ```ts
+import { isValidTimeString } from '@/time/parse'
+
 definePageMeta({
   validate: (route) => {
     const validTZ = /([A-Z]{2,4})/.test(params.tz)
-    const validTime = /([0-2][0-9][0-5][0-9])/.test(params.time)
+    const validTime = isValidTimeString(params.time)
     return validTZ && validTime
   }
 })
 ```
+
+### Supported Time URL Formats
+Users can now use flexible time formats in URLs:
+- `/PST/1800` - Military time
+- `/PST/18:00` - 24-hour with colon
+- `/PST/6pm` - 12-hour format
+- `/PST/6:30pm` - 12-hour with minutes
+- `/Europe/Berlin/06:30AM` - Any format works with IANA timezones too
 
 ### Route Names (in `src/data/routes.ts`)
 - `ABBR_TIME`: Timezone abbreviation with time
@@ -180,6 +193,36 @@ Located in `src/data/timezones.ts`:
   - `showAmbiguous`: Boolean for ambiguous timezone handling
   - `showTZError`: Boolean for invalid timezone
   - `showTime`: Computed property (shows when no errors/ambiguity)
+
+### Time Parsing (`src/time/parse.ts`)
+Centralized time format parsing supporting multiple formats:
+
+**Supported Input Formats:**
+- `1800` - Military time (24-hour, no colon)
+- `18:00` - 24-hour with colon
+- `6pm` - 12-hour without minutes
+- `6:30pm` - 12-hour with minutes
+- `06:30AM` - 12-hour with leading zero
+
+**Key Functions:**
+- `parseTimeString(timeStr: string): ParsedTime | null` - Parses and validates time, returns hour, minute, and formatted string
+- `isValidTimeString(timeStr: string): boolean` - Validates time format
+- `toMilitaryFormat(timeStr: string): string | null` - Converts any format to HHmm (for Luxon)
+
+**Usage Example:**
+```ts
+import { toMilitaryFormat, isValidTimeString } from '@/time/parse'
+
+// Validate route parameter
+isValidTimeString('6pm') // true
+isValidTimeString('25:00') // false
+
+// Convert to military format for Luxon
+const military = toMilitaryFormat('6:30pm') // returns '1830'
+const displayTime = DateTime.fromFormat(military, 'HHmm', { zone: 'America/Los_Angeles' })
+```
+
+**Note:** A duplicate implementation exists in `netlify/edge-functions/time-parse.ts` for Deno runtime (edge functions cannot import from `src/`).
 
 ### Timezone Handling
 - **Abbreviations** (PST, IST, KST): Resolved via `tzabbrmap` package
@@ -293,8 +336,9 @@ npm run lint:fix      # Auto-fix linting errors
 ### When Working with Times
 1. **In Vue components**: Use Luxon's `DateTime`
 2. **In edge functions**: Use Ptera (Deno runtime)
-3. **Format**: 24-hour format input (e.g., `1500` = 3:00 PM)
-4. **Display**: 12-hour format with AM/PM
+3. **Input formats**: Military time (1800), 24-hour (18:00), or 12-hour (6pm, 6:30pm, 06:30AM)
+4. **Internal format**: All times converted to HHmm military format via `toMilitaryFormat()`
+5. **Display**: 12-hour format with AM/PM
 
 ### Component State
 - Prefer `ref()` and `computed()` from Vue
@@ -319,7 +363,7 @@ npm run lint:fix      # Auto-fix linting errors
 1. Create `.vue` file in `src/pages/`
 2. File name determines route
 3. Add layout with `<NuxtLayout>` if needed
-4. Add route validation if using params
+4. Add route validation if using params (use `isValidTimeString` from `@/time/parse` for time validation)
 
 ### Adding a Component
 1. Create in `src/components/`
@@ -345,9 +389,11 @@ npm run lint:fix      # Auto-fix linting errors
 1. **Don't mix datetime libraries**: Use Luxon in Vue, Ptera in edge functions
 2. **Don't import components explicitly**: Nuxt auto-imports from `src/components/`
 3. **Don't use Node.js APIs in edge functions**: They run on Deno
-4. **Don't skip route validation**: Always validate dynamic route params
+4. **Don't skip route validation**: Always validate dynamic route params with `isValidTimeString()`
 5. **Don't import all of Bulma**: Keep selective imports for performance
 6. **Don't forget TypeScript types**: Use proper typing for props and functions
+7. **Don't parse time manually**: Use `parseTimeString()` or `toMilitaryFormat()` from `@/time/parse`
+8. **Don't duplicate time parsers**: Use `src/time/parse.ts` in Vue, `netlify/edge-functions/time-parse.ts` in edge functions
 
 ---
 

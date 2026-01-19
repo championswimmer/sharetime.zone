@@ -1,6 +1,7 @@
 import { Context } from 'https://edge.netlify.com'
 import { datetime } from 'https://deno.land/x/ptera@v1.0.2/mod.ts'
 import timezones from 'https://cdn.jsdelivr.net/npm/tzabbrmap' assert { type: 'json' }
+import { isValidTimeString, toMilitaryFormat } from './time-parse.ts'
 
 export default async (request: Request, context: Context) => {
   if (request.headers.get('user-agent')?.includes('curl')) {
@@ -16,7 +17,7 @@ export default async (request: Request, context: Context) => {
       console.log(tz)
       if (urlSegments[1] === 'now') {
         return await new Response(header + timeNowInTz(urlSegments[0]), { status: 200 })
-      } else if (/([0-2][0-9][0-5][0-9])/.test(urlSegments[1])) {
+      } else if (isValidTimeString(urlSegments[1])) {
         return await new Response(header + timeInTz(urlSegments[0], urlSegments[1], clientTZ), { status: 200 })
       }
     }
@@ -61,9 +62,10 @@ function timeNowInTz (tzAbbr: string): string {
 }
 
 function _timeInTz (tzAbbr: string, tz: string, timeStr: string, clientTZ: string): string {
+  const militaryTime = toMilitaryFormat(timeStr) || '0000'
   const displayTime = datetime().toZonedTime(tz)
-  const hour = timeStr.slice(0, 2)
-  const minute = timeStr.slice(2, 4)
+  const hour = militaryTime.slice(0, 2)
+  const minute = militaryTime.slice(2, 4)
   displayTime.hour = parseInt(hour)
   displayTime.minute = parseInt(minute)
   const localTime = displayTime.toZonedTime(clientTZ)
@@ -73,11 +75,11 @@ function _timeInTz (tzAbbr: string, tz: string, timeStr: string, clientTZ: strin
   } else if (localTime.day - displayTime.day === -1) {
     dayDelta = '(-1 day)'
   }
-  return `${hour}${minute} hrs in (${tzAbbr}) ${tz} at your timezone will be ${localTime.format('hh:mm a')} ${dayDelta} \n`
+  return `${timeStr} in (${tzAbbr}) ${tz} at your timezone will be ${localTime.format('hh:mm a')} ${dayDelta} \n`
 }
 function timeInTz (tzAbbr: string, timeStr: string, clientTZ: string): string {
   const tz: string | Array<TimeZone> = getDisplayTZ(tzAbbr)
-  if (!/([0-2][0-9][0-5][0-9])/.test(timeStr)) {
+  if (!isValidTimeString(timeStr)) {
     throw new Error('Invalid Time')
   }
   if (typeof tz === 'string') {

@@ -5,10 +5,12 @@
 </template>
 
 <script setup lang="ts">
+import { isValidTimeString } from '@/time/parse'
+
 definePageMeta({
   validate: (route) => {
     const params = route.params as Record<string, string>
-    const validTime = /([0-2][0-9][0-5][0-9])/.test(params.time)
+    const validTime = isValidTimeString(params.time)
     return validTime
   }
 })

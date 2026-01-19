@@ -178,6 +178,11 @@ module.exports = {
       'ts-jest',
       { tsconfig: 'test/tsconfig.json' }
     ]
+  },
+
+  // An array of regexp pattern strings that are matched against all module paths before considered 'visible' to the module loader
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
   }
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
