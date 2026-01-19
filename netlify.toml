@@ -1,3 +1,6 @@
+[build.environment]
+  NODE_VERSION = "22"
+
 [[edge_functions]]
     function = "curl-response"
     path = "/*"
