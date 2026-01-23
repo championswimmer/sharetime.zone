@@ -106,6 +106,7 @@ export function toMilitaryFormat (timeStr: string): string | null {
 }
 
 export default async (request: Request, context: Context) => {
+  // This runs only for curl requests
   if (request.headers.get('user-agent')?.includes('curl')) {
     const urlSegments = new URL(request.url).pathname.split('/').slice(1)
     const clientTZ = context.geo.timezone ?? ''

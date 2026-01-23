@@ -2,10 +2,10 @@
   <main>
     <!-- Main how question -->
     <section>
-      <h1 class="title is-size-3 py-3">
+      <h1 class="title is-size-4 p-3 mt-4">
         How does <code>sharetime.zone</code> work?
       </h1>
-      <div class="container p-2">
+      <div class="container is-fluid">
         <p>
           There are 2 things you can do with <code>sharetime.zone</code>:
         </p>
@@ -72,3 +72,6 @@
     </section>
   </main>
 </template>
+
+<script setup lang="ts">
+</script>

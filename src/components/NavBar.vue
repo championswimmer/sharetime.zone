@@ -26,9 +26,6 @@
         <NuxtLink to="/" class="navbar-item">
           Home
         </NuxtLink>
-        <NuxtLink to="/how" class="navbar-item">
-          How
-        </NuxtLink>
       </div>
     </div>
   </nav>
